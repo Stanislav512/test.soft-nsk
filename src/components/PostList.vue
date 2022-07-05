@@ -1,26 +1,26 @@
 <template>
   <div>
     <ul>
-      <TodoItem
-        v-for="(todo, i) of todos"
-        v-bind:todo="todo"
+      <PostItem
+        v-for="(post, i) of posts"
+        v-bind:post="post"
         v-bind:index="i"
-        v-on:remove-todo="removeTodo"
+        v-on:remove-post="removePost"
       />
     </ul>
   </div>
 </template>
 
 <script>
-import TodoItem from '@/components/TodoItem'
+import PostItem from '@/components/PostItem'
 export default {
-  props: ['todos'],
+  props: ['posts'],
   components: {
-    TodoItem
+    PostItem: PostItem
   },
   methods: {
-    removeTodo(id) {
-      this.$emit('remove-todo', id)
+    removePost(id) {
+      this.$emit('remove-post', id)
     }
   }
 }

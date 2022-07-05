@@ -1,7 +1,7 @@
 <template>
   <div>
-    <AddTodo
-        @add-todo="addTodo"
+    <AddPost
+        @add-post="addPost"
     />
     <select v-model="filter">
       <option value="all">All</option>
@@ -10,24 +10,24 @@
     </select>
     <hr>
     <Loader v-if="loading" />
-    <TodoList
-        v-else-if="filteredTodos.length"
-        v-bind:todos="filteredTodos"
-        @remove-todo="removeTodo"
+    <PostList
+        v-else-if="filteredPosts.length"
+        v-bind:posts="filteredPosts"
+        @remove-post="removePost"
     />
-    <p v-else>No todos!</p>
+    <p v-else>No posts!</p>
   </div>
 </template>
 
 <script>
-import TodoList from '@/components/TodoList'
-import AddTodo from '@/components/AddTodo'
+import PostList from '@/components/PostList'
+import AddPost from '@/components/AddPost'
 import Loader from '@/components/Loader'
 export default {
   name: 'app',
   data() {
     return {
-      todos: [
+      posts: [
         {id: 1, title: 'Post 1', text:'text 1', completed: false, rating: 1},
         {id: 2, title: 'Post 2', text:'text 2', completed: false, rating: 5},
         {id: 3, title: 'Post 3', text:'text 3', completed: false, rating: 10}
@@ -41,42 +41,43 @@ export default {
       .then(response => response.json())
       .then(json => {
         setTimeout(() => {
-          this.todos = json
+          this.posts = json
           this.loading = false
         }, 1000)
 
       })
   },
+
   // watch: {
   //   filter(value) {
   //     console.log(value)
   //   }
   // },
   computed: {
-    filteredTodos() {
+    filteredPosts() {
       if (this.filter === 'all') {
-        return this.todos
+        return this.posts
       }
 
       if (this.filter === 'completed') {
-        return this.todos.filter(t => t.completed)
+        return this.posts.filter(t => t.completed)
       }
 
       if (this.filter === 'not-completed') {
-        return this.todos.filter(t => !t.completed)
+        return this.posts.filter(t => !t.completed)
       }
     }
   },
   methods: {
-    removeTodo(id) {
-      this.todos = this.todos.filter(t => t.id !== id)
+    removePost(id) {
+      this.posts = this.posts.filter(t => t.id !== id)
     },
-    addTodo(todo) {
-      this.todos.push(todo)
+    addPost(post) {
+      this.posts.push(post)
     }
   },
   components: {
-    TodoList, AddTodo, Loader
+    PostList, AddPost, Loader
   }
 }
 </script>
